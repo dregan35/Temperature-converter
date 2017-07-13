@@ -45,6 +45,7 @@ function clearOutput() {
 // defined function determineConveter which expects clickEvent (from line)
 function determineConverter(clickEvent) {
     console.log("event", clickEvent);
+
 }
 
 function checkInput() {
@@ -56,7 +57,7 @@ function checkInput() {
 
 
 converter.addEventListener("click", checkInput);
-btn_Clear.addEventListener("click", clearInput)
+btn_Clear.addEventListener("click", clearInput);
 input.addEventListener("keyup", function(e) {
     if (e.keyCode === 13) {
         checkInput();
