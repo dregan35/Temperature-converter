@@ -24,7 +24,6 @@ function toFahrenheit() {
 
 //defined the function clearInput
 function clearEverything() {
-    //set input.value to equal an empty string
     input.value = "";
     //sets output to an empty string
     output.innerHTML = "";
@@ -34,6 +33,7 @@ function clearEverything() {
     F.check = false;
     //called the function clearColorClasses
     clearColorClasses();
+    //set input.value to equal an empty string
 }
 
 function clearColorClasses () {
@@ -67,6 +67,8 @@ function outputTemp(temp, degree) {
     clearColorClasses();
     //sets output to display the concatenation from the string template literal
     output.innerHTML += `${temp} ${degree}`;
+    //set the input to a empty string
+    input.value = "";
     //called color with temp and degree passed into it
     color(temp, degree);
 }
