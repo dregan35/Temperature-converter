@@ -1,15 +1,3 @@
-console.log("helloWorld");
-// Write a program that will convert a temperature from fahrenheit to celsius, or from celsius to fahrenheit.
-
-// √ In the HTML, have one input field where someone can enter in a temperature.
-// √ Create a radio button group where Celsius or Fahrenheit can be selected as the scale that the number should be converted to.
-// √ Create a block level element that will hold the text of the converted temperature.
-// √ Create a button that, when clicked, displays the converted temperature.
-// √ Create another button that, when clicked, clears any text in the input field.
-// Add an event handler to the input field that checks if the user pressed the enter key, and if that happens, perform the conversion.
-// If the temperature is greater than 90F/32C the color of the converted temperature should be red.
-// If the temperature is less than 32F/0C the color of the converted temperature should be blue.
-// For any other temperature, the color should be green.
 //declared variables
 let input = document.getElementById("input");
 let C = document.getElementById("C");
@@ -17,50 +5,120 @@ let F = document.getElementById("F");
 let output = document.getElementById("output");
 let converter = document.getElementById("converter");
 let btn_Clear = document.getElementById("btn_Clear");
-// deinfed function toCelsius
+// defined function toCelsius
 function toCelsius() {
-    // defined variable celsius to equal what the user inputs plus the calculation to convert it to celsius  
-    let celsius = (input.value - 32) * 5 / 9; 
+    console.log("toCelsiusisrunning");
+    // defined variable Celsius to equal what the user inputs plus the calculation to convert it to Celsius and rounds the number
+    let celsius = Math.round(input.value - 32) * 5 / 9;
+    outputTemp(celsius, "C&deg;");
+}
 
-    }
-
-    //defines the function toFahrenheit
-    function toFahrenheit() {
-        //defines the variable fhrenheit to equal what the user inputs plus the calculation to convert it to fahrenheit
-        let fahrenheit = (input.value * 9 / 5) + 32;
-       
-    }
-
+//defines the function toFahrenheit
+function toFahrenheit() {
+    console.log("toFahrenheitisrunnin");
+    //defines the variable Fahrenheit to equal what the user inputs plus the calculation to convert it to Fahrenheit and rounds the number
+    let fahrenheit = Math.round(input.value * 9 / 5) + 32;
+    // calls the function outputTemp with Fahrenheit and "F&deg;" passed into it
+    outputTemp(fahrenheit, "F&deg;");
+}
 
 //defined the function clearInput
-function clearInput() {
+function clearEverything() {
     //set input.value to equal an empty string
     input.value = "";
+    //sets output to an empty string
+    output.innerHTML = "";
+    // if C.check equals false
+    C.check = false;
+    // if F.check equals false
+    F.check = false;
+    //called the function clearColorClasses
+    clearColorClasses();
 }
-//defined the function clearOutput
-function clearOutput() {
-    //set output to an empty string
-    output.value = "";
+
+function clearColorClasses () {
+ // remove the classes "red", "blue", and "green" from output
+    output.classList.remove("red", "blue", "green");
 }
 // defined function determineConveter which expects clickEvent (from line)
-function determineConverter(clickEvent) {
-    console.log("event", clickEvent);
-
+function determineConverter() {
+    //conditional if C.checked is true
+    if (C.checked) {
+        //call toFarenheit
+        toFahrenheit();
+        //otherwise
+    } else {
+        //call toCelsius
+        toCelsius();
+    }
 }
-
+//defined function checkInput
 function checkInput() {
+    //conditional if input has value and C.checked or F.checked is true
     if (input.value && (C.checked || F.checked)) {
+        //call determineConverter
         determineConverter();
 
     }
 }
-
-
-converter.addEventListener("click", checkInput);
-btn_Clear.addEventListener("click", clearInput);
-input.addEventListener("keyup", function(e) {
-    if (e.keyCode === 13) {
-        checkInput();
-
+//defined function outputTemp that expects temp and degree (from line 25 & 33 "Celsius, C&deg", "Fahrenheit, F&deg;")
+function outputTemp(temp, degree) {
+    //called the function clearColorClasses
+    clearColorClasses();
+    //sets output to display the concatenation from the string template literal
+    output.innerHTML += `${temp} ${degree}`;
+    //called color with temp and degree passed into it
+    color(temp, degree);
+}
+//defined the function color that expects temp and degree (from line 73 "temp" "degree")
+function color(temp, degree) {
+    console.log("d", degree);
+    //conditional switch for degree 
+    switch (degree) {
+        // makes the case for "F&deg;"
+        case "F&deg;":
+            //conditional if temp is greater than 90 equals true
+            if (temp > 90) {
+                //add the class "red" to output
+                output.classList.add("red");
+            // conditional otherwise if temp is less than 32 equals true
+            } else if (temp < 32) {
+               //add the class "blue" to the output
+                output.classList.add("blue");
+           // otherwise 
+            } else {
+                //add the class "green" to output
+                output.classList.add("green");
+            }
+            break;
+        // makes the case for "C&deg;"
+        case "C&deg;":
+            // conditional if the temp is greater than 32 equals true
+            if (temp > 32) {
+                // add the class "red" to output
+                output.classList.add("red");
+            // otherwise if temp is less than 0 equals true
+            } else if (temp < 0) {
+                // add the class "blue" to output
+                output.classList.add("blue");
+            //otherwise
+            } else {
+                // add the class "green" to output
+                output.classList.add("green");
+            }
     }
-});
+}
+
+    // added a event listener to the element converter to check for "click" and run checkInput
+    converter.addEventListener("click", checkInput);
+    // added a event listener to the element btn_Clear  to check for "click" and run checkInput
+    btn_Clear.addEventListener("click", clearEverything);
+    // added event listener to input to check for key up and run anonymous function with e passed into it
+    input.addEventListener("keyup", function(e) {
+        //conditional if the event key-code is 13(enter key) equals true
+        if (e.keyCode === 13) {
+            // calls the function checkInput
+            checkInput();
+
+        }
+    });
